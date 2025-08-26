@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Team Logos Display</title>
+                <style>
+                        body { font-family: Arial, sans-serif; background: #f4f4f4; }
+                                .container { max-width: 900px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+                                        button { padding: 10px 20px; font-size: 16px; margin-bottom: 20px; cursor: pointer; }
+                                                .teams { display: flex; flex-wrap: wrap; gap: 20px; }
+                                                        .team { background: #fafafa; border: 1px solid #ddd; border-radius: 6px; padding: 16px; width: 200px; text-align: center; }
+                                                                .team img { max-width: 120px; max-height: 120px; margin-bottom: 10px; }
+                                                                        .team-name { font-weight: bold; font-size: 18px; margin-bottom: 8px; }
+                                                                            </style>
+                                                                            </head>
+                                                                            <body>
+                                                                                <div class="container">
+                                                                                        <button id="showTeamsBtn">Show Teams</button>
+                                                                                                <div id="teamsContainer" class="teams"></div>
+                                                                                                    </div>
+                                                                                                        <script>
+                                                                                                                document.getElementById('showTeamsBtn').addEventListener('click', function() {
+                                                                                                                                        fetch('team_abbr,team_name,team_division,team_l.csv')
+                                                                                                                                                .then(response => response.text())
+                                                                                                                                                .then(csv => {
+                                                                                                                                                        const lines = csv.split('\n').filter(line => line.trim().length > 0);
+                                                                                                                                                        const headers = lines[0].split(',');
+                                                                                                                                                        const nameIdx = headers.indexOf('team_name');
+                                                                                                                                                        const logoIdx = headers.indexOf('team_logo_espn');
+                                                                                                                                                        const teams = lines.slice(1).map(line => {
+                                                                                                                                                                const cols = line.split(',');
+                                                                                                                                                                return {
+                                                                                                                                                                        name: cols[nameIdx],
+                                                                                                                                                                        logo: cols[logoIdx]
+                                                                                                                                                                };
+                                                                                                                                                        });
+                                                                                                                                                        const container = document.getElementById('teamsContainer');
+                                                                                                                                                        container.innerHTML = '';
+                                                                                                                                                        teams.forEach(team => {
+                                                                                                                                                                const div = document.createElement('div');
+                                                                                                                                                                div.className = 'team';
+                                                                                                                                                                div.innerHTML = `<div class="team-name">${team.name}</div><img src="${team.logo}" alt="${team.name} Logo">`;
+                                                                                                                                                                container.appendChild(div);
+                                                                                                                                                        });
+                                                                                                                                                })
+                                                                                                                                                .catch(err => {
+                                                                                                                                                        alert('Failed to load team_abbr,team_name,team_division,team_l.csv. Make sure the file is in the same directory as this HTML file.');
+                                                                                                                                                });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </body>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    >
